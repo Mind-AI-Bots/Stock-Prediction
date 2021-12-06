@@ -1,0 +1,11 @@
+stages:
+  train:
+    cmd: python src/train.py
+    deps:
+    - data/stock_dataset.csv
+    - src/train.py
+    outs:
+    - data/processed/X_train.csv
+    - data/processed/X_valid.csv
+    - data/processed/y_train.csv
+    - data/processed/y_valid.csv
