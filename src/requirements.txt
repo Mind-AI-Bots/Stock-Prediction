@@ -1,0 +1,12 @@
+pandas
+keras
+numpy
+quandl
+matplotlib==3.5.0
+sklearn
+fastai
+setuptools
+Pillow==8.4.0
+msvc-runtime==14.29.30133
+scipy==1.7.3
+tensorflow
