@@ -1,0 +1,7 @@
+outs:
+- path: stock_dataset.csv
+  metric: false
+  cache: true
+  persist: false
+  md5: 366572e6e1031d4ee79d400fcd61e74a
+md5: 14791be75b60a6e95a5cd964a5a74a93
