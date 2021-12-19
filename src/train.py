@@ -23,7 +23,7 @@ sp_dataset = input_dataset_folder / "stock_dataset.csv"
 
 #read the file
 df = quandl.get("NSE/TATAGLOBAL", authtoken="WuwsYYzjWT_ogDGgRpSS")
-df.to_csv(sp_dataset, index=False)
+df.to_csv(sp_dataset, index=True)
 print("Writing file {} to disk.".format(sp_dataset))
 
 #print the head
