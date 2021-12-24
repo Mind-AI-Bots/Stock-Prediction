@@ -214,6 +214,7 @@ def List_Models(request: Request):
         "status-code": HTTPStatus.OK,
         "data": available_models,
     }
+    res_list[:] = []
 
     return response
 
