@@ -18,7 +18,7 @@ from models.lstm import Lstm
 from models.knn import Knn
 from fastapi import FastAPI, File, UploadFile
 import shutil
-from schema import Model_List
+from src.schema import Model_List
 
 
 # Read yaml file 
