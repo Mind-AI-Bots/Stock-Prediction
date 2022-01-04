@@ -7,12 +7,13 @@ import numpy as np
 from pathlib import Path
 import yaml
 import os
+import sys
+paths = str(Path(Path(__file__).parent.absolute()).parent.absolute())
+sys.path.insert(0, paths)
 
-# Read yaml file 
-params = Path("params.yaml")
 
 # Data preparation parameters
-with open (params, "r") as param_files:
+with open (paths+'\params.yaml', "r") as param_files:
     try:
         params_ = yaml.safe_load(param_files)
         params_ = params_["evaluate"]
