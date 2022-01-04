@@ -10,6 +10,10 @@ Pillow==8.4.0
 scipy==1.7.3
 tensorflow
 fastapi[all]
+<<<<<<< HEAD
 uvicorn
 locust
 pytest
+=======
+uvicorn
+>>>>>>> a0b65a172265b994495f9c6fc7ffc7396fba85da
