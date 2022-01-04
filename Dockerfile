@@ -1,4 +1,4 @@
-FROM python:3.7-slim-buster
+FROM python:3.7
 WORKDIR /stockprediction
 COPY src/requirements.txt .
 RUN pip3 install --upgrade pip && pip3 install -r requirements.txt 
