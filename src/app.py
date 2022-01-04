@@ -16,16 +16,16 @@ import yaml
 from models.linear_regression import Linear_Regression 
 from models.lstm import Lstm
 from models.knn import Knn
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, Query
 import shutil
 from src.schema import Model_List
+import sys
+paths = str(Path(Path(__file__).parent.absolute()).parent.absolute())
+sys.path.insert(0, paths)
 
-
-# Read yaml file 
-params = Path("params.yaml")
 
 # Data preparation parameters
-with open (params, "r") as param_files:
+with open (paths+'\params.yaml', "r") as param_files:
     try:
         params_ = yaml.safe_load(param_files)
         params_ = params_["evaluate"]
@@ -219,12 +219,21 @@ def List_Models(request: Request):
     return response
 
 
-@app.post("/models/{type}", tags=["Prediction"])
-def predict_data(request: Request, types: Model_List = Model_List.Linear_reg, file: UploadFile = File(...)):
+@app.post("/models", tags=["Prediction"])
+def predict_data(request: Request, types: Model_List =  Query(""), file: UploadFile = File(...)):
     with open("dataset.csv", "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
     
-    if types.value == "Linear Regression Model":
+    if types == "":
+        print('inside')
+        response = {
+            "message": "Choose a Model to Train",
+            "status-code": HTTPStatus.BAD_REQUEST,
+        }
+        return response
+        
+
+    elif types.value == "Linear Regression Model":
         results = Linear_Regression("dataset.csv")
         final_prediction =[
 
@@ -265,7 +274,7 @@ def predict_data(request: Request, types: Model_List = Model_List.Linear_reg, fi
         }
         return response
 
-    elif  types.value == "k-Nearest Neighbor Model":
+    elif types.value == "k-Nearest Neighbour Model":
         results = Knn("dataset.csv")
         final_prediction =[
 
@@ -284,13 +293,6 @@ def predict_data(request: Request, types: Model_List = Model_List.Linear_reg, fi
             "data": final_prediction
         }
         return response
-
-    else:
-        response = {
-            "message": "Model not found",
-            "status-code": HTTPStatus.BAD_REQUEST,
-        }
-
 
 
 
