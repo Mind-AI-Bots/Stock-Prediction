@@ -11,7 +11,7 @@ from sklearn.linear_model import LinearRegression
 from fastai.tabular.all import  *
 from http import HTTPStatus
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, LSTM
+from keras.layers import Dense, LSTM
 import quandl
 from pathlib import Path
 import yaml
