@@ -1,5 +1,6 @@
 #implement linear regression
-from six import print_
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 from sklearn.linear_model import LinearRegression
 #importing libraries
 from sklearn import neighbors
@@ -8,7 +9,7 @@ from sklearn.preprocessing import MinMaxScaler
 #importing required libraries
 from sklearn.preprocessing import MinMaxScaler
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, LSTM
+from keras.layers import Dense, LSTM
 from train import new_data, valid, train, df
 # %run train.ipynb import new_data, valid, train
 import pandas as pd
