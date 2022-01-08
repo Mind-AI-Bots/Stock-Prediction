@@ -1,8 +1,8 @@
 #implement linear regression
-import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 from sklearn.linear_model import LinearRegression
 #importing libraries
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 from sklearn import neighbors
 from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import MinMaxScaler
