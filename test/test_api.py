@@ -12,8 +12,8 @@ from src.schema import Model_List
 @pytest.fixture
 def source_file():
     fpath = str(Path(Path(__file__).parent.absolute()).parent.absolute())
-    pd.read_pickle(fpath+"\data\stock_dataset.pkl").to_csv(fpath+"\data\stock_dataset.csv", index=True)
-    fname = fpath+'\data\stock_dataset.csv'
+    pd.read_pickle(fpath+"/data/stock_dataset.pkl").to_csv(fpath+"/data/stock_dataset.csv", index=True)
+    fname = fpath+'/data/stock_dataset.csv'
     return {
         "file": ("upload_file", open(fname, "rb"), fname),
     }
@@ -72,7 +72,7 @@ with TestClient(app) as myclient:
 
     @pytest.mark.parametrize("model_list", Model_List.List_params())
     def test_models(model_list):
-        fname = str(Path(Path(__file__).parent.absolute()).parent.absolute())+'\data\stock_dataset.csv'
+        fname = str(Path(Path(__file__).parent.absolute()).parent.absolute())+'/data/stock_dataset.csv'
         if model_list != "":
             validate = myclient.post("/models?types="+ str(model_list) , files={"file": ("upload_file", open(fname, "rb"), fname)})
             jsonify = validate.json()
