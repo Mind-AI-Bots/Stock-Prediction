@@ -4,11 +4,11 @@ stages:
     cmd: python src/train.py
     deps:
     - path: data/stock_dataset.csv
-      md5: 366572e6e1031d4ee79d400fcd61e74a
-      size: 105236
+      md5: b3d7886a631d60993b74c945418b8aa1
+      size: 128341
     - path: src/train.py
-      md5: cefcd1d69da0643b8e09eee44c6e636d
-      size: 2418
+      md5: f7fd0b0f6bd0b3eb64b1a6d5844d6f64
+      size: 2394
     outs:
     - path: data/processed/X_train.csv
       md5: 0a17447a45f3972ddffc94655b506a76
@@ -38,8 +38,8 @@ stages:
       md5: 3f98e0776921e11862e8ea11dba1bf0f
       size: 8348
     - path: src/evaluate.py
-      md5: 1f4ad4680260ea38579715e268ee5d51
-      size: 5424
+      md5: 5bb0a9b8f0c824c743008d5290deee48
+      size: 5611
     params:
       params.yaml:
         evaluate.batch_size: 1
@@ -47,6 +47,6 @@ stages:
         evaluate.verbose: 2
     outs:
     - path: data/predicted/
-      md5: 6f02869bf4f93c372fe4dd88b8c76bc8.dir
-      size: 19360
+      md5: ec5d7abfff94bc8f8035cdd6c3aed94a.dir
+      size: 19370
       nfiles: 1

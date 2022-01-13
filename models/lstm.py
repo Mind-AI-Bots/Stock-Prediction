@@ -13,7 +13,7 @@ sys.path.insert(0, paths)
 
 
 # Data preparation parameters
-with open (paths+'\params.yaml', "r") as param_files:
+with open (paths+'/params.yaml', "r") as param_files:
     try:
         params_ = yaml.safe_load(param_files)
         params_ = params_["evaluate"]

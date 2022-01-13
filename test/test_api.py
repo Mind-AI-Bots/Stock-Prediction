@@ -1,6 +1,7 @@
 import os
 import sys
 import pytest
+import pandas as pd
 from pathlib import Path
 from fastapi.testclient import TestClient
 path = str(Path(Path(__file__).parent.absolute()).parent.absolute())
@@ -10,10 +11,13 @@ from src.schema import Model_List
 
 @pytest.fixture
 def source_file():
-    fname = os.path.join(os.path.dirname(__file__), 'stock_prediction.csv')
+    fpath = str(Path(Path(__file__).parent.absolute()).parent.absolute())
+    pd.read_pickle(fpath+"/data/stock_dataset.pkl").to_csv(fpath+"/data/stock_dataset.csv", index=True)
+    fname = fpath+'/data/stock_dataset.csv'
     return {
         "file": ("upload_file", open(fname, "rb"), fname),
     }
+
 
 
 with TestClient(app) as myclient:
@@ -68,12 +72,19 @@ with TestClient(app) as myclient:
 
     @pytest.mark.parametrize("model_list", Model_List.List_params())
     def test_models(model_list):
-        fname = os.path.join(os.path.dirname(__file__), 'stock_prediction.csv')
-        validate = myclient.post("/models?types="+ str(model_list) , files={"file": ("upload_file", open(fname, "rb"), fname)})
-        jsonify = validate.json()
-        assert validate.status_code == 200
-        assert jsonify['message'] == 'OK'
-        assert jsonify['Model Type'] == str(model_list)
-        assert len(jsonify['data']) != 0
-        assert "Close" in jsonify['data'][0]
-        assert "Predictions" in jsonify['data'][0]
+        fname = str(Path(Path(__file__).parent.absolute()).parent.absolute())+'/data/stock_dataset.csv'
+        if model_list != "":
+            validate = myclient.post("/models?types="+ str(model_list) , files={"file": ("upload_file", open(fname, "rb"), fname)})
+            jsonify = validate.json()
+            assert validate.status_code == 200
+            assert jsonify['message'] == 'OK'
+            assert jsonify['Model Type'] == str(model_list)
+            assert len(jsonify['data']) != 0
+            assert "Close" in jsonify['data'][0]
+            assert "Predictions" in jsonify['data'][0]
+        else:
+            validate = myclient.post("/models?types="+ str(model_list) , files={"file": ("upload_file", open(fname, "rb"), fname)})
+            jsonify = validate.json()
+            assert validate.status_code == 200
+            assert jsonify['message'] == 'Choose a Model to Train'
+

@@ -27,7 +27,7 @@ sys.path.insert(0, paths)
 
 
 # Data preparation parameters
-with open (paths+'\params.yaml', "r") as param_files:
+with open (paths+'/params.yaml', "r") as param_files:
     try:
         params_ = yaml.safe_load(param_files)
         params_ = params_["evaluate"]
@@ -226,73 +226,76 @@ def predict_data(types: Model_List =  Query(""), file: UploadFile = File(...)):
         shutil.copyfileobj(file.file, buffer)
     
     if types == "":
+        os.remove("dataset.csv")
         response = {
             "message": "Choose a Model to Train",
             "status-code": HTTPStatus.BAD_REQUEST,
         }
         return response
-        
+    
+    else:
 
-    elif types.value == "Linear Regression Model":
-        results = Linear_Regression("dataset.csv")
-        final_prediction =[
+        if types.value == "Linear Regression Model":
+            results = Linear_Regression("dataset.csv")
+            final_prediction =[
 
-            {
-                "Close": iter["Close"],
-                "Predictions": iter["Predictions"] 
+                {
+                    "Close": iter["Close"],
+                    "Predictions": iter["Predictions"] 
+                }
+                for iter in results[1].to_dict(orient='records')
+            ]
+
+            response = {
+                "message": HTTPStatus.OK.phrase,
+                "status-code": HTTPStatus.OK,
+                "Model Type": types.value,
+                "Accuracy": results[0],
+                "data": final_prediction
             }
-            for iter in results[1].to_dict(orient='records')
-        ]
-
-        response = {
-            "message": HTTPStatus.OK.phrase,
-            "status-code": HTTPStatus.OK,
-            "Model Type": types.value,
-            "Accuracy": results[0],
-            "data": final_prediction
-        }
-        return response
+            return response
 
 
-    elif types.value == "LSTM Model":
-        results = Lstm("dataset.csv")
-        final_prediction =[
+        elif types.value == "LSTM Model":
+            results = Lstm("dataset.csv")
+            final_prediction =[
 
-            {
-                "Close": iter["Close"],
-                "Predictions": iter["Predictions"] 
+                {
+                    "Close": iter["Close"],
+                    "Predictions": iter["Predictions"] 
+                }
+                for iter in results[1].to_dict(orient='records')
+            ]
+
+            response = {
+                "message": HTTPStatus.OK.phrase,
+                "status-code": HTTPStatus.OK,
+                "Model Type": types.value,
+                "Accuracy": results[0],
+                "data": final_prediction
             }
-            for iter in results[1].to_dict(orient='records')
-        ]
+            return response
 
-        response = {
-            "message": HTTPStatus.OK.phrase,
-            "status-code": HTTPStatus.OK,
-            "Model Type": types.value,
-            "Accuracy": results[0],
-            "data": final_prediction
-        }
-        return response
+        elif types.value == "k-Nearest Neighbour Model":
+            results = Knn("dataset.csv")
+            final_prediction =[
 
-    elif types.value == "k-Nearest Neighbour Model":
-        results = Knn("dataset.csv")
-        final_prediction =[
+                {
+                    "Close": iter["Close"],
+                    "Predictions": iter["Predictions"] 
+                }
+                for iter in results[1].to_dict(orient='records')
+            ]
 
-            {
-                "Close": iter["Close"],
-                "Predictions": iter["Predictions"] 
+            response = {
+                "message": HTTPStatus.OK.phrase,
+                "status-code": HTTPStatus.OK,
+                "Model Type": types.value,
+                "Accuracy": results[0],
+                "data": final_prediction
             }
-            for iter in results[1].to_dict(orient='records')
-        ]
+            return response
 
-        response = {
-            "message": HTTPStatus.OK.phrase,
-            "status-code": HTTPStatus.OK,
-            "Model Type": types.value,
-            "Accuracy": results[0],
-            "data": final_prediction
-        }
-        return response
 
 
 
