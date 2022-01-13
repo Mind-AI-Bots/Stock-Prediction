@@ -51,7 +51,6 @@ new_data['Close'] = data['Close'].values
 
 add_datepart(new_data, 'Date')
 new_data.drop('Elapsed', axis=1, inplace=True)  #elapsed will be the time stamp
-print(new_data.head())
 
 
 new_data['mon_fri'] = 0
