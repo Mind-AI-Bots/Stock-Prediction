@@ -104,7 +104,6 @@ preds = model.predict(x_valid)
 ###Result
 #rmse
 KNN_rms=np.sqrt(np.mean(np.power((np.array(y_valid)-np.array(preds)),2)))
-print(KNN_rms)
 
 
 
@@ -196,7 +195,6 @@ for i in range(0, len(ls_datas)):
     val.append(ls_datas[i])
     
 new_validate = pd.DataFrame(val)
-print(new_validate)
 new_validate.to_csv(out_path, index=False)
 val[:] = []
 

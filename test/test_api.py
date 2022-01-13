@@ -1,6 +1,7 @@
 import os
 import sys
 import pytest
+import pandas as pd
 from pathlib import Path
 from fastapi.testclient import TestClient
 path = str(Path(Path(__file__).parent.absolute()).parent.absolute())
@@ -10,10 +11,13 @@ from src.schema import Model_List
 
 @pytest.fixture
 def source_file():
+    fpath = os.path.join(os.path.dirname(__file__), 'stock_prediction.pkl')
+    pd.read_pickle(fpath).to_csv("stock_prediction.csv", index=False)
     fname = os.path.join(os.path.dirname(__file__), 'stock_prediction.csv')
     return {
         "file": ("upload_file", open(fname, "rb"), fname),
     }
+
 
 
 with TestClient(app) as myclient:
