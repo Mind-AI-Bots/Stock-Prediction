@@ -73,11 +73,18 @@ with TestClient(app) as myclient:
     @pytest.mark.parametrize("model_list", Model_List.List_params())
     def test_models(model_list):
         fname = os.path.join(os.path.dirname(__file__), 'stock_prediction.csv')
-        validate = myclient.post("/models?types="+ str(model_list) , files={"file": ("upload_file", open(fname, "rb"), fname)})
-        jsonify = validate.json()
-        assert validate.status_code == 200
-        assert jsonify['message'] == 'OK'
-        assert jsonify['Model Type'] == str(model_list)
-        assert len(jsonify['data']) != 0
-        assert "Close" in jsonify['data'][0]
-        assert "Predictions" in jsonify['data'][0]
+        if model_list != "":
+            validate = myclient.post("/models?types="+ str(model_list) , files={"file": ("upload_file", open(fname, "rb"), fname)})
+            jsonify = validate.json()
+            assert validate.status_code == 200
+            assert jsonify['message'] == 'OK'
+            assert jsonify['Model Type'] == str(model_list)
+            assert len(jsonify['data']) != 0
+            assert "Close" in jsonify['data'][0]
+            assert "Predictions" in jsonify['data'][0]
+        else:
+            validate = myclient.post("/models?types="+ str(model_list) , files={"file": ("upload_file", open(fname, "rb"), fname)})
+            jsonify = validate.json()
+            assert validate.status_code == 200
+            assert jsonify['message'] == 'Choose a Model to Train'
+
