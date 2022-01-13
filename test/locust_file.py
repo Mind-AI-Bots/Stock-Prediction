@@ -38,5 +38,5 @@ class StockPrediction_locust(HttpUser):
             pd.read_pickle(self.fpath).to_csv("stock_prediction.csv", index=False)
             self.fname = os.path.join(os.path.dirname(__file__), 'stock_prediction.csv')
             for val in Model_List.List_params():
-                if val is not '':
+                if val != '':
                     self.client.post(f'/models?types='+ str(val), files={"file": ("upload_file", open(self.fname, "rb"), self.fname)})
