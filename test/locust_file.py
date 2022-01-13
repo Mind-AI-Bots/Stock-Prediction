@@ -34,9 +34,9 @@ class StockPrediction_locust(HttpUser):
     @tag('Dynamic Model List')
     @task(10)
     def predict(self):
-            self.fpath = os.path.join(os.path.dirname(__file__), 'stock_prediction.pkl')
-            pd.read_pickle(self.fpath).to_csv("stock_prediction.csv", index=False)
-            self.fname = os.path.join(os.path.dirname(__file__), 'stock_prediction.csv')
+            self.fpath = str(Path(Path(__file__).parent.absolute()).parent.absolute())
+            pd.read_pickle(self.fpath+"/data/stock_dataset.pkl").to_csv(self.fpath+"/data/stock_dataset.csv", index=True)
+            self.fname = self.fpath+'/data/stock_dataset.csv'
             for val in Model_List.List_params():
                 if val != '':
                     self.client.post(f'/models?types='+ str(val), files={"file": ("upload_file", open(self.fname, "rb"), self.fname)})
