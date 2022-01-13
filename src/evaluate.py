@@ -19,12 +19,12 @@ from pathlib import Path
 import yaml
 
 # path of Predicted output folder
-Path("data/predicted").mkdir(exist_ok=True)
-predicted_folder_path = Path("data/predicted")
-out_path = predicted_folder_path / "predicted_value.csv"
+os.makedirs(str(Path(Path(__file__).parent.absolute()).parent.absolute())+"\data\predicted", exist_ok=True)
+predicted_folder_path = str(Path(Path(__file__).parent.absolute()).parent.absolute())+"\data\predicted"
+out_path = predicted_folder_path+"\predicted_value.csv"
 
 # Read yaml file 
-params = Path("params.yaml")
+params = str(Path(Path(__file__).parent.absolute()).parent.absolute())+"\params.yaml"
 
 # Data preparation parameters
 with open (params, "r") as param_files:
@@ -37,14 +37,14 @@ with open (params, "r") as param_files:
 
 
 # Path of the prepared data folder
-input_folder_path = Path("data/processed")
+input_folder_path = str(Path(Path(__file__).parent.absolute()).parent.absolute())+"\data\processed"
 
 # Read training dataset
-x_train = pd.read_csv(input_folder_path / "X_train.csv")
-y_train = pd.read_csv(input_folder_path / "y_train.csv")
+x_train = pd.read_csv(input_folder_path + "\X_train.csv")
+y_train = pd.read_csv(input_folder_path + "\y_train.csv")
 # Read validation dataset
-x_valid = pd.read_csv(input_folder_path / "X_valid.csv")
-y_valid = pd.read_csv(input_folder_path / "y_valid.csv")
+x_valid = pd.read_csv(input_folder_path + "\X_valid.csv")
+y_valid = pd.read_csv(input_folder_path + "\y_valid.csv")
 
 
 
@@ -72,10 +72,6 @@ train.index = new_data[:987].index
     
 plt.plot(train['Close'])
 plt.plot(validing[['Close', 'Predictions']])
-
-
-
-
 
 
 # k-Nearest Neighbours Regression
