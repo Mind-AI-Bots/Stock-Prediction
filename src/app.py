@@ -7,6 +7,7 @@ from sklearn.preprocessing import MinMaxScaler
 from pathlib import Path
 import pandas as pd
 from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 from sklearn.linear_model import LinearRegression
 from fastai.tabular.all import  *
 from http import HTTPStatus
@@ -15,6 +16,7 @@ from keras.layers import Dense, LSTM
 import quandl
 from pathlib import Path
 import yaml
+from prometheus_fastapi_instrumentator import Instrumentator
 from models.linear_regression import Linear_Regression 
 from models.lstm import Lstm
 from models.knn import Knn
@@ -89,7 +91,25 @@ app = FastAPI(
     title="Stock Prediction Using FastAPI"
     )
 
- 
+
+origins = [
+    "http://localhost:3000"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    expose_headers=["*"],
+    allow_headers=origins
+)
+@app.on_event("startup")
+async def instrumentator():
+    Instrumentator().instrument(app).expose(app)
+
+
+
 @app.get("/", tags=["List Endpoints"])
 def Base_url(request: Request):
     url_list = [

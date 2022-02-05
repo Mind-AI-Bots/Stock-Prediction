@@ -13,3 +13,6 @@ fastapi[all]
 uvicorn
 locust
 pytest
+pytest-cov
+prometheus_fastapi_instrumentator
+
