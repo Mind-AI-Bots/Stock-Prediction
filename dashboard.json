@@ -21,7 +21,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 1,
+  "id": 3,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -32,78 +32,32 @@
             "mode": "continuous-GrYlRd"
           },
           "custom": {
-            "fillOpacity": 70,
-            "lineWidth": 0
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 0
-      },
-      "id": 24,
-      "options": {
-        "alignValue": "left",
-        "legend": {
-          "displayMode": "list",
-          "placement": "bottom"
-        },
-        "mergeValues": true,
-        "rowHeight": 0.9,
-        "showValue": "auto",
-        "tooltip": {
-          "mode": "single"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "XwWzJeb7z"
-          },
-          "exemplar": true,
-          "expr": "process_cpu_seconds_total{instance=\"host.docker.internal:8181\",job=\"app\"}",
-          "interval": "",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "Process Cpu",
-      "transparent": true,
-      "type": "state-timeline"
-    },
-    {
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "custom": {
-            "fillOpacity": 80,
-            "gradientMode": "none",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "scheme",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
-            "lineWidth": 1
+            "lineInterpolation": "smooth",
+            "lineWidth": 3,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "mappings": [],
           "thresholds": {
@@ -124,42 +78,42 @@
       },
       "gridPos": {
         "h": 7,
-        "w": 10,
-        "x": 14,
+        "w": 7,
+        "x": 0,
         "y": 0
       },
-      "id": 18,
+      "id": 123135,
       "options": {
-        "bucketOffset": 0,
         "legend": {
           "calcs": [],
           "displayMode": "list",
           "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
         }
       },
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "XwWzJeb7z"
+            "uid": "ky-0swB7z"
           },
           "exemplar": true,
-          "expr": "rate(http_request_duration_highr_seconds_bucket{instance=\"host.docker.internal:8181\",job=\"app\",le=\"0.75\"}[$__interval])",
+          "expr": "http_request_duration_highr_seconds_count{instance=\"host.docker.internal:8181\",job=\"app\"}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
         }
       ],
-      "title": "Request Seconds Bucket",
+      "title": "Duration Seconds Count",
       "transparent": true,
-      "type": "histogram"
+      "type": "timeseries"
     },
     {
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "continuous-GrYlRd"
-          },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -173,79 +127,22 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "short"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 10,
-        "w": 8,
-        "x": 14,
-        "y": 7
+        "h": 6,
+        "w": 7,
+        "x": 8,
+        "y": 0
       },
-      "id": 26,
+      "id": 123137,
       "options": {
-        "displayMode": "lcd",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showUnfilled": true
-      },
-      "pluginVersion": "8.3.4",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "XwWzJeb7z"
-          },
-          "exemplar": true,
-          "expr": "rate(process_start_time_seconds{instance=\"host.docker.internal:8181\",job=\"app\"}[$__interval])",
-          "format": "heatmap",
-          "interval": "",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "Process Start",
-      "transparent": true,
-      "type": "bargauge"
-    },
-    {
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 6,
-        "x": 0,
-        "y": 8
-      },
-      "id": 16,
-      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -254,26 +151,25 @@
           "fields": "",
           "values": false
         },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "textMode": "auto"
       },
-      "pluginVersion": "8.3.4",
+      "pluginVersion": "8.4.0-beta1",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "XwWzJeb7z"
+            "uid": "ky-0swB7z"
           },
           "exemplar": true,
-          "expr": "http_request_size_bytes_count{handler=\"/\",instance=\"host.docker.internal:8181\",job=\"app\"}",
+          "expr": "http_request_duration_highr_seconds_sum{instance=\"host.docker.internal:8181\",job=\"app\"}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
         }
       ],
-      "title": "Request Count",
+      "title": "Request Duration Seconds",
       "transparent": true,
-      "type": "gauge"
+      "type": "stat"
     },
     {
       "fieldConfig": {
@@ -300,12 +196,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 6,
         "w": 6,
-        "x": 7,
-        "y": 8
+        "x": 16,
+        "y": 0
       },
-      "id": 20,
+      "id": 123133,
       "options": {
         "orientation": "auto",
         "reduceOptions": {
@@ -318,68 +214,12 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "8.3.4",
+      "pluginVersion": "8.4.0-beta1",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "XwWzJeb7z"
-          },
-          "exemplar": true,
-          "expr": "rate(http_response_size_bytes_count{handler=\"/metrics\",instance=\"host.docker.internal:8181\",job=\"app\"}[$__interval])",
-          "interval": "",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "Response Count",
-      "transparent": true,
-      "type": "gauge"
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 13,
-        "w": 5,
-        "x": 7,
-        "y": 15
-      },
-      "hiddenSeries": false,
-      "id": 12,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "8.3.4",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "XwWzJeb7z"
+            "uid": "ky-0swB7z"
           },
           "exemplar": true,
           "expr": "http_requests_total{handler=\"/models\",instance=\"host.docker.internal:8181\",job=\"app\",method=\"POST\",status=\"2xx\"}",
@@ -388,156 +228,9 @@
           "refId": "A"
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
-      "title": "Total Request Models",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
+      "title": "HTTP Total Request ",
       "transparent": true,
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
-    },
-    {
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            }
-          },
-          "mappings": []
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 13,
-        "w": 7,
-        "x": 0,
-        "y": 16
-      },
-      "id": 10,
-      "options": {
-        "legend": {
-          "displayMode": "list",
-          "placement": "bottom"
-        },
-        "pieType": "pie",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "tooltip": {
-          "mode": "single"
-        }
-      },
-      "pluginVersion": "8.3.4",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "XwWzJeb7z"
-          },
-          "exemplar": true,
-          "expr": "{handler=~\"/docs|/listmodels|/metrics\",instance=\"host.docker.internal:8181\",job=\"app\",method=\"GET\",status=\"2xx\"}",
-          "interval": "",
-          "intervalFactor": 1,
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "Total Request",
-      "transparent": true,
-      "type": "piechart"
-    },
-    {
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "continuous-GrYlRd"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 17
-      },
-      "id": 22,
-      "options": {
-        "displayMode": "lcd",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showUnfilled": true
-      },
-      "pluginVersion": "8.3.4",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "XwWzJeb7z"
-          },
-          "exemplar": true,
-          "expr": "http_request_duration_seconds_bucket{handler=\"/docs\",instance=\"host.docker.internal:8181\",job=\"app\",le=\"0.5\"}",
-          "interval": "",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "Second Bucket",
-      "transparent": true,
-      "type": "bargauge"
+      "type": "gauge"
     },
     {
       "fieldConfig": {
@@ -549,9 +242,9 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
-            "drawStyle": "bars",
+            "drawStyle": "line",
             "fillOpacity": 0,
-            "gradientMode": "opacity",
+            "gradientMode": "none",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
@@ -591,12 +284,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 12,
-        "y": 25
+        "h": 12,
+        "w": 7,
+        "x": 8,
+        "y": 6
       },
-      "id": 6,
+      "id": 123127,
       "options": {
         "legend": {
           "calcs": [],
@@ -604,19 +297,204 @@
           "placement": "bottom"
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "8.4.0-beta1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "ky-0swB7z"
+          },
+          "exemplar": true,
+          "expr": "process_cpu_seconds_total{instance=\"host.docker.internal:8181\",job=\"app\"}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Process Cpu",
+      "transparent": true,
+      "type": "timeseries"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 6,
+        "x": 16,
+        "y": 6
+      },
+      "id": 123125,
+      "options": {
+        "bucketOffset": 0,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
         }
       },
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "XwWzJeb7z"
+            "uid": "ky-0swB7z"
+          },
+          "exemplar": true,
+          "expr": "rate(http_request_duration_highr_seconds_bucket{instance=\"host.docker.internal:8181\",job=\"app\",le=\"0.075\"}[$__interval])",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Request Seconds Bucket",
+      "transparent": true,
+      "type": "histogram"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 0,
+        "y": 7
+      },
+      "id": 123131,
+      "options": {
+        "displayMode": "lcd",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true
+      },
+      "pluginVersion": "8.4.0-beta1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "ky-0swB7z"
           },
           "exemplar": true,
           "expr": "python_gc_objects_collected_total{generation=~\"0|1|2\",instance=\"host.docker.internal:8181\",job=\"app\"}",
-          "format": "heatmap",
-          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Total Object Collected",
+      "transparent": true,
+      "type": "bargauge"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 7,
+        "x": 0,
+        "y": 12
+      },
+      "id": 123129,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.4.0-beta1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "ky-0swB7z"
+          },
+          "exemplar": true,
+          "expr": "python_gc_collections_total{generation=~\"0|1|2\",instance=\"host.docker.internal:8181\",job=\"app\"}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -624,14 +502,34 @@
       ],
       "title": "Garbage Collector Counter",
       "transparent": true,
-      "type": "timeseries"
+      "type": "stat"
+    },
+    {
+      "gridPos": {
+        "h": 3,
+        "w": 24,
+        "x": 0,
+        "y": 18
+      },
+      "id": 1,
+      "type": "welcome"
+    },
+    {
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 21
+      },
+      "id": 123123,
+      "type": "gettingstarted"
     },
     {
       "gridPos": {
         "h": 15,
         "w": 12,
         "x": 0,
-        "y": 29
+        "y": 30
       },
       "id": 3,
       "links": [],
@@ -645,22 +543,38 @@
         "showStarred": true,
         "tags": []
       },
-      "pluginVersion": "8.3.4",
+      "pluginVersion": "8.4.0-beta1",
       "tags": [],
       "title": "Dashboards",
       "type": "dashlist"
+    },
+    {
+      "gridPos": {
+        "h": 15,
+        "w": 12,
+        "x": 12,
+        "y": 30
+      },
+      "id": 4,
+      "links": [],
+      "options": {
+        "feedUrl": "https://grafana.com/blog/news.xml",
+        "showImage": true
+      },
+      "title": "Latest from the blog",
+      "type": "news"
     }
   ],
-  "refresh": false,
-  "schemaVersion": 34,
+  "refresh": "",
+  "schemaVersion": 35,
   "style": "dark",
   "tags": [],
   "templating": {
     "list": []
   },
   "time": {
-    "from": "2022-01-17T20:06:18.416Z",
-    "to": "2022-02-02T23:06:36.909Z"
+    "from": "now-6h",
+    "to": "now"
   },
   "timepicker": {
     "hidden": true,
@@ -692,6 +606,6 @@
   "timezone": "browser",
   "title": "Stock Prediction",
   "uid": "AYzNpg-nk",
-  "version": 7,
+  "version": 2,
   "weekStart": ""
 }
