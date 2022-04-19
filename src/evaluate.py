@@ -95,6 +95,7 @@ model = GridSearchCV(knn, params, cv=5)
 
 #fit the model and make predictions
 model.fit(x_train,y_train)
+model.score(x_train,y_train)
 preds = model.predict(x_valid)
 
 ###Result
@@ -162,6 +163,8 @@ models.add(Dense(1))
 
 models.compile(loss='mean_squared_error', optimizer='adam')
 models.fit(x_trains, y_trains, epochs=params_["epochs"], batch_size=params_["batch_size"], verbose=params_["verbose"])
+scores = models.evaluate(x_trains, y_trains, verbose=params_["verbose"])
+
 
 #predicting 246 values, using past 60 from the train data
 inputs = new_datas[len(new_datas) - len(nu_valid) - 60:].values
