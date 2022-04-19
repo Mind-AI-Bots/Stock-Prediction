@@ -63,6 +63,8 @@ def Lstm(datasets):
 
     model.compile(loss='mean_squared_error', optimizer='adam')
     model.fit(x_train, y_train, epochs=params_["epochs"], batch_size=params_["batch_size"], verbose=params_["verbose"])
+    scores = model.evaluate(x_train, y_train, verbose=params_["verbose"])
+
 
 
     #predicting values, using past 60 from the train data
@@ -96,5 +98,5 @@ def Lstm(datasets):
     val[:] = []
 
 
-    return rms, valid_pred
+    return scores, valid_pred
 

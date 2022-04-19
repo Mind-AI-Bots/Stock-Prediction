@@ -47,7 +47,7 @@ def Linear_Regression(dataset):
     #implement linear regression
     model = LinearRegression()
     model.fit(x_train,y_train)
-    model.score(x_train,y_train)
+    score = model.score(x_train,y_train)
 
 
     # make predictions and find the rmse
@@ -68,4 +68,4 @@ def Linear_Regression(dataset):
     # valid_pred = pd.DataFrame(preds, columns=["Predictions"])
     # valid_pred['Close'] = valid.values
 
-    return rms, valid_pred
+    return score, valid_pred

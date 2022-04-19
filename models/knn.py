@@ -58,7 +58,7 @@ def Knn(dataset):
 
     #fit the model and make predictions
     model.fit(x_train,y_train)
-    model.score(x_train,y_train)
+    score = model.score(x_train,y_train)
     preds = model.predict(x_valid)
 
     #KNN rms
@@ -77,6 +77,6 @@ def Knn(dataset):
     # valid_pred = pd.DataFrame(preds, columns=["Predictions"])
     # valid_pred['Close'] = valid.values
 
-    return rms, valid_pred
+    return score, valid_pred
 
 

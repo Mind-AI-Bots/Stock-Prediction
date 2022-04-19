@@ -20,7 +20,7 @@ from prometheus_fastapi_instrumentator import Instrumentator
 from models.linear_regression import Linear_Regression 
 from models.lstm import Lstm
 from models.knn import Knn
-from fastapi import FastAPI, File, UploadFile, Query
+from fastapi import FastAPI, File, UploadFile, Query, Response
 import shutil
 from src.schema import Model_List
 import sys
@@ -101,12 +101,12 @@ app.add_middleware(
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
-    expose_headers=["*"],
+    expose_headers=['X-model-type'],
     allow_headers=origins
 )
 @app.on_event("startup")
 async def instrumentator():
-    Instrumentator().instrument(app).expose(app)
+    Instrumentator().instrument(app).expose(app, include_in_schema=False, should_gzip=True)
 
 
 
@@ -127,7 +127,7 @@ def List_Models():
     # Linear Regression Model
     lr_model = LinearRegression()
     lr_model.fit(fetch_dataset['train']['X'], fetch_dataset['train']['Y'])
-    # lr_score = lr_model.score(fetch_dataset['train']['X'], fetch_dataset['train']['Y'])
+    lr_score = lr_model.score(fetch_dataset['train']['X'], fetch_dataset['train']['Y'])
 
     lr_preds = lr_model.predict(fetch_dataset['valid']['X'])
     
@@ -137,7 +137,7 @@ def List_Models():
 
     res_list.append({
         "Model_Type": "Linear Regression",
-        "Model_Accuracy": lr_rms
+        "Model_Accuracy": lr_score
     })
 
        # Long Short Term Memory(LSTM)
@@ -171,6 +171,8 @@ def List_Models():
 
     models.compile(loss='mean_squared_error', optimizer='adam')
     models.fit(x_trains, y_trains, epochs=params_["epochs"], batch_size=params_["batch_size"], verbose=params_["verbose"])
+    scores = models.evaluate(x_trains, y_trains, verbose=params_["verbose"])
+
 
     #predicting 246 values, using past 60 from the train data
     inputs = fetch_dataset['new_df'][len(fetch_dataset['new_df']) - len(valid) - 60:].values
@@ -191,7 +193,7 @@ def List_Models():
 
     res_list.append({
         "Model_Type": "Long Short Term Memory (LSTM)",
-        "Model_Accuracy": lstm_rms
+        "Model_Accuracy": scores
     })
 
     # K-Nearest Neighbours Regression
@@ -209,7 +211,7 @@ def List_Models():
 
     #fit the model and make predictions
     knn_model.fit(X_train, fetch_dataset['train']['Y'])
-    # knn_score = knn_model.score(X_train, fetch_dataset['train']['Y'])
+    knn_score = knn_model.score(X_train, fetch_dataset['train']['Y'])
 
     preds = knn_model.predict(X_valid)
 
@@ -218,7 +220,7 @@ def List_Models():
 
     res_list.append({
         "Model_Type": "K-Nearest Neighbour Regression",
-        "Model_Accuracy": knn_rms 
+        "Model_Accuracy": knn_score 
     })
     
     
@@ -230,28 +232,28 @@ def List_Models():
         for list in res_list
     ]
 
-    response = {
+    pass_response = {
         "message": HTTPStatus.OK.phrase,
         "status-code": HTTPStatus.OK,
         "data": available_models,
     }
     res_list[:] = []
 
-    return response
+    return pass_response
 
 
 @app.post("/models", tags=["Prediction"])
-def predict_data(types: Model_List =  Query(""), file: UploadFile = File(...)):
+def predict_data(response: Response, types: Model_List =  Query(""), file: UploadFile = File(...)):
     with open("dataset.csv", "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
     
     if types == "":
         os.remove("dataset.csv")
-        response = {
+        pass_response = {
             "message": "Choose a Model to Train",
             "status-code": HTTPStatus.BAD_REQUEST,
         }
-        return response
+        return pass_response
     
     else:
 
@@ -266,14 +268,17 @@ def predict_data(types: Model_List =  Query(""), file: UploadFile = File(...)):
                 for iter in results[1].to_dict(orient='records')
             ]
 
-            response = {
+            response.headers["X-model-type"]=types.value
+            response.headers["X-model-prediction"]= str(results[0]) 
+
+            pass_response = {
                 "message": HTTPStatus.OK.phrase,
                 "status-code": HTTPStatus.OK,
                 "Model Type": types.value,
                 "Accuracy": results[0],
                 "data": final_prediction
             }
-            return response
+            return pass_response
 
 
         elif types.value == "LSTM Model":
@@ -287,14 +292,17 @@ def predict_data(types: Model_List =  Query(""), file: UploadFile = File(...)):
                 for iter in results[1].to_dict(orient='records')
             ]
 
-            response = {
+            response.headers["X-model-type"]=types.value
+            response.headers["X-model-prediction"]= str(results[0]) 
+
+            pass_response = {
                 "message": HTTPStatus.OK.phrase,
                 "status-code": HTTPStatus.OK,
                 "Model Type": types.value,
                 "Accuracy": results[0],
                 "data": final_prediction
             }
-            return response
+            return pass_response
 
         elif types.value == "k-Nearest Neighbour Model":
             results = Knn("dataset.csv")
@@ -307,14 +315,17 @@ def predict_data(types: Model_List =  Query(""), file: UploadFile = File(...)):
                 for iter in results[1].to_dict(orient='records')
             ]
 
-            response = {
+            response.headers["X-model-type"]=types.value
+            response.headers["X-model-prediction"]= str(results[0]) 
+
+            pass_response = {
                 "message": HTTPStatus.OK.phrase,
                 "status-code": HTTPStatus.OK,
                 "Model Type": types.value,
                 "Accuracy": results[0],
                 "data": final_prediction
             }
-            return response
+            return pass_response
 
 
 
